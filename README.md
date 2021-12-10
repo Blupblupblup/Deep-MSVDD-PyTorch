@@ -23,9 +23,9 @@ paper code https://github.com/zghafoori/Deep-Multi-Sphere-SVDD/tree/670ba3c76043
 
 ### Regarding the deep AD notebooks (DeepCAE, DeepSVDD, DeepMSVDD)
 
-- Batch size was set to 512, substantially higher than indicated in the paper (200) 
+- Batch size was set to 512, substantially higher than what's indicated in the paper (200) 
 because it seems to stabilize test and validation AUCs during training (cf. graphs in notebooks). This isn't true for some of the difficult training
-tasks considered in the results table below. For instance, for the experiments where normality is MNIST [0,1,2,3,4,5,6] and FashionMNIST [0,1,2,3,4,5,6], the batch size is 
+tasks considered in the results tables below. For instance, for the experiments where normality is MNIST [0,1,2,3,4,5,6] and FashionMNIST [0,1,2,3,4,5,6], the batch size is 
 increased to 1024 to enable a smoother AUC evolution during training. Furthermore, for the experiment where normality is CIFAR10 [1,9], the batch size is also increased to 1024,
 and the initial learning rate is set to 1e-3 instead of 1e-4 (the latter decreases during training as suggested in the DeepSVDD paper).
 - The test AUC score is based on the best validation set performance epoch, as was done in https://arxiv.org/pdf/2001.08873.pdf.
@@ -34,8 +34,8 @@ weights stored in ./trained_models will be used as the initialization, as indica
 
 ### Possible differences with what's in the papers
 
-Data preprocessing, best test epoch selection and weights initialization are not the same. The best validation set epoch is used to choose the test AUC, 
-and the same test set is used for non-deep methods. We observed in several cases that the best validation epoch makes the final mean test AUC lower 
+Data preprocessing, best test epoch selection and weights initialization are not exactly the same. The best validation set epoch is used to choose the test AUC, 
+and the test set may not stem from the same kind of split. We observed in several cases that the best validation epoch makes the final mean test AUC lower 
 than a test AUC spike, and than a stable test AUC at the end of the learning epochs considered. However, this epoch selection process was kept because it is 
 deemed fair. This is similar to
 what was done in https://arxiv.org/pdf/2001.08873.pdf. One can check the evolution of valid and test AUCs during training on
@@ -49,7 +49,7 @@ performances do not strictly decrease when the normality complexity (# of normal
 
 ### Example results
 
-Results are reported on 5 seeds (mean test AUCs +/- std). Each column is one experiment with its own normal classes (indicated in the top row), and each
+Results are reported for 5 seeds (mean test AUCs +/- std). Each column is one experiment with its own normal classes (indicated in the top row), and each
 row is associated with an AD method. "BTE" stands for best test epoch: this indicates performances where instead of the best validation set epoch, we use 
 the best test set epoch to choose the test AUC.
 
@@ -111,13 +111,16 @@ the best test set epoch to choose the test AUC.
 | **Deep MSVDD (pretrained weights)**       | 0.6957 +/- 0.0172 | 0.6193 +/- 0.0614 | 0.7307 +/- 0.0315       |
 | **Deep MSVDD (pretrained weights) - BTE** | 0.6971 +/- 0.0163 | 0.6193 +/- 0.0613 | 0.7307 +/- 0.0315       |
 
-*This differs from the experiment mentioned in the Deep MSVDD paper, where the same classes define normality, but only a subset of the remaining classes define the anomalous AD class: "For the CIFAR10 dataset, vehicles, i.e., automobiles and trucks, were considered as the normal data and classes that represent animals were treated as anomalies.". This setup seems fairer since it respects one of the fundamental ideas of AD: anomalous data points are infinitely diverse.
+*This differs from the experiment mentioned in the Deep MSVDD paper, where the same classes define normality, but only a subset 
+of the remaining classes define the anomalous AD class: "For the CIFAR10 dataset, vehicles, i.e., automobiles and trucks, were considered 
+as the normal data and classes that represent animals were treated as anomalies.". This setup seems fairer since it respects 
+one of the fundamental ideas of AD: anomalous data points are infinitely diverse.
 
 **All animal classes are normal.
 
 ### To do
 
-- fix seeds (performances are not exactly reproducible for the deep experiments, seeds are thus not correctly set everywhere it should)
+- fix seeds (performances are not exactly reproducible for the deep experiments, seeds are thus not correctly set everywhere they should)
 - once seeds are fixed, generate example results on more (10 ?) seeds
 
 ### Disclaimer
